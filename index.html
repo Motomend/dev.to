@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevCycle Feature Flags Web App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .btn {
+            padding: 15px 30px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        #content {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DevCycle Feature Flags Example</h1>
+        <button class="btn" onclick="toggleFeature()">Toggle Feature</button>
+        <div id="content">Waiting for feature flag...</div>
+    </div>
+
+    <script src="https://cdn.devcycle.com/js-sdk/latest/devcycle.js"></script>
+    <script>
+        // Initialize DevCycle SDK with your API key
+        const devCycleClient = new DevCycleClient('dvc_client_c501324d_d06f_4b92_9575_dba52e55c981_93e3cad');
+
+        function toggleFeature() {
+            devCycleClient.getFeatureFlag('sessionContent').then(flagValue => {
+                const contentDiv = document.getElementById('content');
+                if (flagValue) {
+                    contentDiv.innerText = 'Feature is enabled! Showing special content.';
+                } else {
+                    contentDiv.innerText = 'Feature is disabled. Showing default content.';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
